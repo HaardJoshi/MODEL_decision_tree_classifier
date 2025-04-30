@@ -1,0 +1,62 @@
+/*
+  Custom CSS for Quarto HTML Output
+
+  This file contains styles to:
+  1. Justify the main text content.
+  2. Set the maximum width of the content area to 80%.
+*/
+
+/* Justify the main text content */
+/* Target the body element for general text alignment */
+body {
+  text-align: justify;
+  /* Optional: Enable hyphenation for better justification in some cases */
+  /* hyphens: auto; */
+}
+
+/* Prevent justification on headings and other elements */
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: left; /* Align headings to the left */
+}
+
+/* Code blocks, inline code, figures, tables, captions */
+pre,
+code,
+figure,
+table,
+.figcaption {
+  text-align: left; /* Prevent justification on these elements */
+}
+
+/* Set the maximum width of the main content container */
+/*
+    Quarto themes often use a container class (like .container)
+    to limit the width of the main content.
+    We override the max-width property of this container.
+    Using !important ensures this rule takes precedence over theme styles.
+  */
+.container {
+  max-width: 75% !important; /* Set max width to 80% of the parent container (usually viewport) */
+  /*
+      If .container doesn't work, you might need to inspect
+      the generated HTML and target a different class,
+      like .quarto-article or a specific div wrapping the content.
+      Example:
+      .quarto-article {
+          max-width: 80% !important;
+      }
+    */
+}
+
+/*
+    Note: Setting max-width to 80% might look too wide on very
+    large monitors, potentially impacting readability.
+    Consider using a large fixed pixel value (e.g., 1200px)
+    or a slightly smaller percentage (e.g., 75%) if needed.
+  */

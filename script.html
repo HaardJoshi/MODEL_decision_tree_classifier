@@ -1,0 +1,142 @@
+<style>
+    /*
+      CSS for the Image Modal Overlay
+      This styles the background and the container for the enlarged image.
+    */
+    #imageModalOverlay {
+        /* Fixed position to cover the entire viewport */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Semi-transparent black background */
+        background-color: rgba(0, 0, 0, 0.8);
+        /* Flexbox to center the image container */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* High z-index to ensure it's on top of other content */
+        z-index: 1000;
+        /* Initially hidden */
+        visibility: hidden;
+        opacity: 0;
+        /* Smooth transition for fading in/out */
+        transition: opacity 0.3s ease;
+    }
+
+    #imageModalOverlay.visible {
+        /* Make visible when the 'visible' class is added by JavaScript */
+        visibility: visible;
+        opacity: 1;
+    }
+
+    #imageModalContainer {
+        /* Container for the enlarged image, allows for padding/margin */
+        /* Max width/height to prevent image from overflowing the screen */
+        max-width: 95%;
+        max-height: 95%;
+        /* Background color for the image itself (optional) */
+        /* background-color: white; */
+        /* Optional: Add padding around the image */
+        /* padding: 10px; */
+        /* Ensure the container itself doesn't interfere with clicks to close modal */
+        pointer-events: none;
+        /* Allow clicks to pass through to the overlay */
+    }
+
+    #imageModalContainer img {
+        /* Style for the enlarged image inside the modal */
+        display: block;
+        /* Remove extra space below image */
+        max-width: 100%;
+        /* Image should scale down if larger than container */
+        max-height: 100%;
+        /* Image should scale down if larger than container */
+        object-fit: contain;
+        /* Ensure the whole image is visible without cropping */
+        /* Optional: Add a subtle shadow */
+        /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
+        /* Allow clicks on the image itself if needed, but clicks on overlay close it */
+        pointer-events: auto;
+        /* Cursor to indicate it's clickable (to close) */
+        cursor: zoom-out;
+    }
+
+    /* Optional: Cursor change on clickable images in the document */
+    /* Updated selector based on screenshot */
+    .cell-output img {
+        cursor: zoom-in;
+        /* Indicate that these images are clickable */
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- Create the Modal HTML elements dynamically ---
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = 'imageModalOverlay';
+
+        const modalContainer = document.createElement('div');
+        modalContainer.id = 'imageModalContainer';
+
+        const modalImage = document.createElement('img');
+        // Do NOT set src here, it will be set when an image is clicked
+
+        // Assemble the modal structure
+        modalContainer.appendChild(modalImage);
+        modalOverlay.appendChild(modalContainer);
+
+        // Add the modal structure to the body of the document
+        document.body.appendChild(modalOverlay);
+
+        // --- Add Event Listeners ---
+
+        // 1. Find all images in the main content area
+        // UPDATED SELECTOR based on the screenshot provided by the user.
+        // We now target images within elements having the class 'cell-output'.
+        const images = document.querySelectorAll('.cell-output img');
+
+        // 2. Add click listener to each image
+        images.forEach(img => {
+            // Add a class to easily style the cursor (using the updated selector in CSS)
+            // img.classList.add('clickable-image'); // No longer strictly needed if styling .cell-output img directly
+
+            img.addEventListener('click', function (event) {
+                // Prevent default link behavior if the image is already wrapped in one
+                event.preventDefault();
+                event.stopPropagation(); // Prevent clicks from bubbling up
+
+                // Get the source of the clicked image
+                const imageUrl = this.src;
+
+                // Set the source of the image inside the modal
+                modalImage.src = imageUrl;
+
+                // Show the modal overlay
+                modalOverlay.classList.add('visible');
+            });
+        });
+
+        // 3. Add click listener to the modal overlay to close it
+        modalOverlay.addEventListener('click', function (event) {
+            // Check if the click was directly on the overlay, not the image itself
+            // This prevents closing the modal if the user clicks the image inside the modal
+            if (event.target === modalOverlay || event.target === modalContainer) {
+                // Hide the modal overlay
+                modalOverlay.classList.remove('visible');
+                // Clear the image source when hidden (optional, good practice)
+                modalImage.src = '';
+            }
+        });
+
+        // Optional: Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+                modalOverlay.classList.remove('visible');
+                modalImage.src = ''; // Clear image source
+            }
+        });
+
+    });
+</script>
