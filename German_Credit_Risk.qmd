@@ -118,7 +118,7 @@ sns.set_style('whitegrid') # Makes plots look nicer
 ```{python}
 #| colab: {base_uri: https://localhost:8080/, height: 206}
 # load the dataset
-file_path = '/Users/hardjoshi/Library/CloudStorage/OneDrive-UniversityofEastLondon/Year-2/CN5022_2512658/Courseworks/task-5/german_credit_data.csv'
+file_path = 'german_credit_data.csv'
 df = pd.read_csv(file_path)
 
 # look at the first few rows
