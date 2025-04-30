@@ -166,7 +166,7 @@ print(statlog_german_credit_data.metadata)
 print(statlog_german_credit_data.variables)
 ```
 
-**Analysing the orgonal dataset, we have identified the target variable as the 'CreditRisk' column.**
+**Analysing the original dataset, we have identified the target variable as the 'CreditRisk' column.**
 
 **This column contains two possible values: 'good(='1')' and 'bad(='2')', indicating the lender's assessment of the applicant's creditworthiness.**
 
@@ -192,7 +192,7 @@ df.shape
 - Column names.
 - Number of non-null values per column (helps spot missing data immediately).
 - Data types (object usually means string/categorical; int64, float64 are numerical).
-it is crucial to pay close attention here! We check if the numerical columns read correctly?
+it is crucial to pay close attention here! We check if the numerical columns read correctly.
 Are categorical ones 'object'?'''
 df.info()
 ```
